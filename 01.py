@@ -2,7 +2,9 @@ import ffmpeg
 import time
 
 # 録音時間（秒）
-duration = 10
+duration = 11 #10に設定したら音声ファイルが秒数を切り上げてしまい9秒と表示されてしまったので11秒に設定しました
+# 出力ファイル名
+output_file = 'python-audio-output.wav'
 
 try:
     print(f"{duration}秒間、マイクからの録音を開始します...")
@@ -12,6 +14,7 @@ try:
     (
         ffmpeg
         .input(':0', format='avfoundation', t=duration) # macOSの例
+        .output(output_file, acodec='pcm_s16le', ar='44100', ac=1)
         .run(overwrite_output=True)
     )
     print(f"録音が完了しました。")
